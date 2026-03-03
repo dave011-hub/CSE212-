@@ -1,19 +1,31 @@
+using System.IO.Pipelines;
+using System.Security.Cryptography.X509Certificates;
+using System.Diagnostics;
 public static class Arrays
 {
     /// <summary>
     /// This function will produce an array of size 'length' starting with 'number' followed by multiples of 'number'.  For 
     /// example, MultiplesOf(7, 5) will result in: {7, 14, 21, 28, 35}.  Assume that length is a positive
-    /// integer greater than 0.
+    /// integer greater than 0
     /// </summary>
     /// <returns>array of doubles that are the multiples of the supplied number</returns>
     public static double[] MultiplesOf(double number, int length)
     {
-        // TODO Problem 1 Start
-        // Remember: Using comments in your program, write down your process for solving this problem
-        // step by step before you write the code. The plan should be clear enough that it could
-        // be implemented by another person.
+        // crate an array with size of the number of multiples
+        double[] results = new double[length];
 
-        return []; // replace this return statement with your own
+
+
+        // loop from 0 up to -1
+        for (int i = 0; i < length; i = i + 1)
+        {
+        // for each position i, calculate start * (i +1)
+            results[i] = number * (i + 1);
+        }
+        // store the value in the array
+        // return the array
+        
+        return results; // replace this return statement with your own
     }
 
     /// <summary>
@@ -23,11 +35,23 @@ public static class Arrays
     ///
     /// Because a list is dynamic, this function will modify the existing data list rather than returning a new list.
     /// </summary>
-    public static void RotateListRight(List<int> data, int amount)
+    public static List<int> RotateListRight(List<int> data, int amount)
     {
-        // TODO Problem 2 Start
-        // Remember: Using comments in your program, write down your process for solving this problem
-        // step by step before you write the code. The plan should be clear enough that it could
-        // be implemented by another person.
+        // create a list that will hold the final results after the rotation
+        List<int> FinalResults = new List<int>();
+
+
+        // to get the slice from the range you must get the data count using data.count
+
+        // create a list that will hold the last amount of items from the data list
+        List<int> lastSlice = data.GetRange(data.Count - amount, amount);
+        
+        // crate a list that will hold the first amount of items from the data list 
+        List<int> FirstSlice = data.GetRange(0, data.Count - amount);
+        // add the first and last slices to the final results list in the correct order
+        FinalResults.AddRange(lastSlice);
+        FinalResults.AddRange(FirstSlice);
+        // display the final results list to the console
+        return FinalResults; 
     }
 }

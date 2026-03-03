@@ -1,5 +1,5 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-
+using System.Diagnostics;
 // DO NOT MODIFY THIS FILE
 
 [TestClass]
