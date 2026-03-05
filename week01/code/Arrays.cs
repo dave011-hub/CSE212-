@@ -35,23 +35,36 @@ public static class Arrays
     ///
     /// Because a list is dynamic, this function will modify the existing data list rather than returning a new list.
     /// </summary>
-    public static List<int> RotateListRight(List<int> data, int amount)
+    public static void  RotateListRight(List<int> data, int amount)
     {
-        // create a list that will hold the final results after the rotation
-        List<int> FinalResults = new List<int>();
+        if (data.Count == 0)
+        {
+            return;
+        }
 
+
+
+        amount = amount % data.Count; // in case the amount is greater than the data count, we can use the modulus operator to get the correct amount of rotation
+
+
+        if (amount == 0)
+        {
+            return; // if the amount is 0, then we can return the original data list
+        }
+        // create a list that will hold the final results after the rotation
+        
 
         // to get the slice from the range you must get the data count using data.count
 
         // create a list that will hold the last amount of items from the data list
         List<int> lastSlice = data.GetRange(data.Count - amount, amount);
-        
+
         // crate a list that will hold the first amount of items from the data list 
         List<int> FirstSlice = data.GetRange(0, data.Count - amount);
         // add the first and last slices to the final results list in the correct order
-        FinalResults.AddRange(lastSlice);
-        FinalResults.AddRange(FirstSlice);
+        data.Clear(); // clear the original data list so we can add the rotated values back to it
+        data.AddRange(lastSlice);
+        data.AddRange(FirstSlice);
         // display the final results list to the console
-        return FinalResults; 
     }
 }
