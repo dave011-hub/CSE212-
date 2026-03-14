@@ -1,3 +1,5 @@
+using System.Security.Cryptography.X509Certificates;
+
 public class Translator
 {
     public static void Run()
@@ -11,7 +13,7 @@ public class Translator
         Console.WriteLine(englishToGerman.Translate("Train")); // ???
     }
 
-    private Dictionary<string, string> _words = new();
+    private Dictionary<string, string> _words = new Dictionary<string, string> ();
 
     /// <summary>
     /// Add the translation from 'from_word' to 'to_word'
@@ -25,6 +27,7 @@ public class Translator
     public void AddWord(string fromWord, string toWord)
     {
         // ADD YOUR CODE HERE
+        _words[fromWord] = toWord;
     }
 
     /// <summary>
@@ -35,6 +38,14 @@ public class Translator
     public string Translate(string fromWord)
     {
         // ADD YOUR CODE HERE
-        return "";
+        if (_words.ContainsKey(fromWord))
+        {
+            return _words[fromWord];
+        }
+        else
+        {
+            
+        return "???";
+        }
     }
 }
