@@ -72,7 +72,7 @@ public class Maze
         if (!options[2])
             throw new InvalidOperationException("Can't go that way!");
 
-        _currY = _currY + 1;
+        _currY -=1;
 
     }
 
@@ -89,7 +89,7 @@ public class Maze
         if (!options[3])
             throw new InvalidOperationException("Can't go that way!");
 
-        _currY = _currY - 1 ;
+        _currY +=1 ;
 
     }
 

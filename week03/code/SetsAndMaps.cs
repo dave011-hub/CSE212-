@@ -32,20 +32,19 @@ public static class SetsAndMaps
         foreach (string word in words)
         {
             // make sure you skip duplicate words like aa
-            if(word[0] == word[1])
-            {
+            if(!wordSet.Contains(word))
                 continue;
-            }
+            
             // reverse the word and check if the reversed word is in the set
             var reversedword = new string(word.Reverse().ToArray());
             // if it is in the set then add the pair to the result set 
-            if (wordSet.Contains(reversedword))
+            if (wordSet.Contains(reversedword) && word != reversedword)
             {
-                results.Add($"{word}&{reversedword}");
-            }
+            results.Add($"{word}&{reversedword}");
             // make sure you dont count again by removing from the set 
             wordSet.Remove(word);
             wordSet.Remove(reversedword);
+            }
 
 
         }
