@@ -1,3 +1,5 @@
+using System.Collections.Concurrent;
+using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
 
 public static class SetsAndMaps
@@ -22,7 +24,33 @@ public static class SetsAndMaps
     public static string[] FindPairs(string[] words)
     {
         // TODO Problem 1 - ADD YOUR CODE HERE
-        return [];
+        // crate a set to store the words because sets have O(1) lookup time and does not allow dupicates
+        var wordSet = new HashSet<string>(words);
+        // crate a list to store your results 
+        var results = new List<string>();
+        // for each word in the array
+        foreach (string word in words)
+        {
+            // make sure you skip duplicate words like aa
+            if(word[0] == word[1])
+            {
+                continue;
+            }
+            // reverse the word and check if the reversed word is in the set
+            var reversedword = new string(word.Reverse().ToArray());
+            // if it is in the set then add the pair to the result set 
+            if (wordSet.Contains(reversedword))
+            {
+                results.Add($"{word}&{reversedword}");
+            }
+            // make sure you dont count again by removing from the set 
+            wordSet.Remove(word);
+            wordSet.Remove(reversedword);
+
+
+        }
+        // return the result of the set as an array 
+        return results.ToArray();
     }
 
     /// <summary>
@@ -36,13 +64,21 @@ public static class SetsAndMaps
     /// </summary>
     /// <param name="filename">The name of the file to read</param>
     /// <returns>fixed array of divisors</returns>
-    public static Dictionary<string, int> SummarizeDegrees(string filename)
+    public static Dictionary<string, int> SummarizeDegrees(string census)
     {
         var degrees = new Dictionary<string, int>();
-        foreach (var line in File.ReadLines(filename))
+        foreach (var line in File.ReadLines(census))
         {
             var fields = line.Split(",");
             // TODO Problem 2 - ADD YOUR CODE HERE
+            // if degrees is in column 4 the it is in index 3 
+            var degree = fields[3];
+
+            // add it to the dictionary if it does not contain the degree already 
+            if (!degrees.ContainsKey(degree))
+                degrees[degree] = 1;
+            else
+                degrees[degree]++;
         }
 
         return degrees;
@@ -67,7 +103,40 @@ public static class SetsAndMaps
     public static bool IsAnagram(string word1, string word2)
     {
         // TODO Problem 3 - ADD YOUR CODE HERE
-        return false;
+        // ignore any spaces and convert to a common character to be easily compared and to ignore cases when Ab and Ba are compared
+        word1 = word1.Replace(" ", "").ToLower();
+        word2 = word2.Replace(" ", "").ToLower();
+        // chack if the words length are equal
+        if (word1.Length != word2.Length)
+        {
+            return false;
+        }
+        // crate a dictionary to store all the values ones as an int to keep count and one as string
+        var dictionary = new Dictionary<char, int>();
+        // foreach letter in word1 is equal to word2
+        foreach (char letter in word1)
+        {
+            if (!dictionary.ContainsKey(letter))
+                dictionary[letter] = 1;
+            else
+                dictionary[letter]++;
+        }
+        // foreach word in word2 
+        foreach (char letter in word2)
+        {
+            // if any word goes below zero then its not an anagram 
+            // if not decrease count 
+            // if the chracter is not in the dictionary then its not an anagram 
+            if (!dictionary.ContainsKey(letter))
+                return false;
+            dictionary[letter]--;
+
+            if (dictionary[letter] < 0)
+                return false;
+
+        }
+        // if it has all the characters and the same number or characters the return true 
+        return true;
     }
 
     /// <summary>
@@ -101,6 +170,16 @@ public static class SetsAndMaps
         // on those classes so that the call to Deserialize above works properly.
         // 2. Add code below to create a string out each place a earthquake has happened today and its magitude.
         // 3. Return an array of these string descriptions.
-        return [];
+        List<string> results = new List<string>();
+        foreach (var feature in featureCollection.features)
+        {
+            var props = feature.properties;
+            var date = DateTimeOffset.FromUnixTimeMilliseconds(props.time);
+            if (date.Date == DateTimeOffset.UtcNow.Date)
+            {
+                results.Add($"{props.place} - Mag {props.mag}");
+            }
+        }
+        return results.ToArray();
     }
 }

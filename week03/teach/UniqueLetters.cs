@@ -15,14 +15,21 @@
     /// <returns>true if all letters are unique, otherwise false</returns>
     private static bool AreUniqueLetters(string text) {
         // TODO Problem 1 - Replace the O(n^2) algorithm to use sets and O(n) efficiency
-        for (var i = 0; i < text.Length; ++i) {
-            for (var j = 0; j < text.Length; ++j) {
-                // Don't want to compare to yourself ... that will always result in a match
-                if (i != j && text[i] == text[j])
-                    return false;
-            }
+
+        // crate a set to store the letters 
+        var uniqueletters = new HashSet<char>();
+        
+        // for each letter in the text, check if it is already in the set
+        foreach(char letter in text)
+        {
+            // if there are no duplicates of a letter then it will return true meaning it is unique 
+            if (uniqueletters.Contains(letter))
+                return false;
+            uniqueletters.Add(letter);
+
         }
 
         return true;
+
     }
 }
